@@ -1,0 +1,167 @@
+{
+  "id": 37,
+  "gridPos": {
+    "h": 6,
+    "w": 12,
+    "x": 12,
+    "y": 7
+  },
+  "title": "CPU Temp",
+  "libraryPanel": {
+    "id": 11,
+    "orgId": 1,
+    "folderId": 0,
+    "folderUid": "",
+    "uid": "LFvaoLTVk",
+    "name": "CPU Temp",
+    "kind": 1,
+    "type": "gauge",
+    "description": "",
+    "model": {
+      "id": 37,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 7
+      },
+      "type": "gauge",
+      "title": "CPU Temp",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "Kluw3FN4k"
+      },
+      "pluginVersion": "9.3.2",
+      "libraryPanel": {
+        "name": "CPU Temp",
+        "uid": ""
+      },
+      "description": "",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "displayName": "CPU",
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 80
+              },
+              {
+                "color": "dark-red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "Kluw3FN4k"
+          },
+          "query": "from(bucket: \"${Bucket}\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"host\"] == \"${server}\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"temp_input\")\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"sensors\")\r\n  |> filter(fn: (r) => r[\"chip\"] == \"coretemp-isa-0000\" or r[\"chip\"] == \"coretemp-isa-0001\" or r[\"chip\"] == \"acpitz-acpi-0\")\r\n  |> filter(fn: (r) => r[\"feature\"] == \"pch_cpu_temp\" or r[\"feature\"] == \"package_id_0\" or r[\"feature\"] == \"package_id_1\" or r[\"feature\"] == \"temp1\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+          "refId": "A"
+        }
+      ]
+    },
+    "version": 1,
+    "meta": {
+      "folderName": "General",
+      "folderUid": "",
+      "connectedDashboards": 1,
+      "created": "2023-01-24T20:26:01Z",
+      "updated": "2023-01-24T20:26:01Z",
+      "createdBy": {
+        "id": 1,
+        "name": "admin",
+        "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56"
+      },
+      "updatedBy": {
+        "id": 1,
+        "name": "admin",
+        "avatarUrl": "/avatar/46d229b033af06a191ff2267bca9ae56"
+      }
+    }
+  },
+  "targets": [
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "Kluw3FN4k"
+      },
+      "query": "from(bucket: \"${Bucket}\")\r\n  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)\r\n  |> filter(fn: (r) => r[\"host\"] == \"${server}\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"temp_input\")\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"sensors\")\r\n  |> filter(fn: (r) => r[\"chip\"] == \"coretemp-isa-0000\" or r[\"chip\"] == \"coretemp-isa-0001\" or r[\"chip\"] == \"acpitz-acpi-0\")\r\n  |> filter(fn: (r) => r[\"feature\"] == \"pch_cpu_temp\" or r[\"feature\"] == \"package_id_0\" or r[\"feature\"] == \"package_id_1\" or r[\"feature\"] == \"temp1\")\r\n  |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)\r\n  |> yield(name: \"mean\")",
+      "refId": "A"
+    }
+  ],
+  "options": {
+    "reduceOptions": {
+      "values": false,
+      "calcs": [
+        "lastNotNull"
+      ],
+      "fields": ""
+    },
+    "orientation": "auto",
+    "showThresholdLabels": false,
+    "showThresholdMarkers": true
+  },
+  "fieldConfig": {
+    "defaults": {
+      "mappings": [],
+      "thresholds": {
+        "mode": "absolute",
+        "steps": [
+          {
+            "color": "green",
+            "value": null
+          },
+          {
+            "color": "orange",
+            "value": 80
+          },
+          {
+            "color": "dark-red",
+            "value": 90
+          }
+        ]
+      },
+      "color": {
+        "mode": "thresholds"
+      },
+      "displayName": "CPU",
+      "unit": "celsius"
+    },
+    "overrides": []
+  },
+  "type": "gauge",
+  "datasource": {
+    "type": "influxdb",
+    "uid": "Kluw3FN4k"
+  },
+  "pluginVersion": "9.3.2",
+  "description": ""
+}
